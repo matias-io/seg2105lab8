@@ -13,6 +13,9 @@ jobs:
     steps:
       - checkout
       - run:
+        name: Ensure Gradle Wrapper is Executable
+        command: chmod +x ./gradlew
+      - run:
           name: Build APK
           command: ./gradlew assembleDebug
       - store_artifacts:
@@ -25,17 +28,20 @@ jobs:
     executor: android-executor
     steps:
       - checkout
+      - run:
+        name: Ensure Gradle Wrapper is Executable
+        command: chmod +x ./gradlew
       - restore_cache:
           keys:
-            - v1-gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+            - v2-gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
       - run:
           name: Run Unit Tests
-          command: ./gradlew testDebugUnitTest
+          command: ./gradlew testDebugUnitTest --stacktrace --info
       - save_cache:
           paths:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
-          key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
+          key: v2-gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
       - store_test_results:
           path: app/build/test-results/testDebugUnitTest
       - store_artifacts:

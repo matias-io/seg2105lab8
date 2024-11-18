@@ -27,7 +27,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+            - v1-gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
       - run:
           name: Run Unit Tests
           command: ./gradlew testDebugUnitTest
@@ -35,7 +35,7 @@ jobs:
           paths:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
-          key: v1-gradle-cache-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+          key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
       - store_test_results:
           path: app/build/test-results/testDebugUnitTest
       - store_artifacts:

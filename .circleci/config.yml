@@ -12,7 +12,9 @@ jobs:
     executor: android-executor
     steps:
       - checkout
-
+      - run:
+        name: Ensure Gradle Wrapper is Executable
+        command: chmod +x ./gradlew
       - run:
           name: Build APK
           command: ./gradlew assembleDebug
@@ -26,7 +28,9 @@ jobs:
     executor: android-executor
     steps:
       - checkout
-
+      - run:
+        name: Ensure Gradle Wrapper is Executable
+        command: chmod +x ./gradlew
       - restore_cache:
           keys:
             - v2-gradle-cache-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}
